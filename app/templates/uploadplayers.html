@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<h1>Upload CSV-file of players</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form method='post' action="{{ url_for('uploadplayers') }}" enctype='multipart/form-data'>
+            {{ form.file }}
+            <br>
+            {{ form.submit(class_="btn btn-default") }}
+            {{ form.save(class_="btn btn-default") }}
+            {{ form.delete(class_="btn btn-danger") }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

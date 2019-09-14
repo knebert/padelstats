@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+      $('#keywords').tablesorter();
+    });
+</script>
+{% endblock %}
+
+
+{% block app_content %}
+  <table id="keywords" class="table table-striped" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th scope="col"><span><a href="#" onclick="tablesorter(); return false">Keywords</a></span></th>
+        <th scope="col"><span>Impressions</span></th>
+        <th scope="col"><span>Clicks</span></th>
+        <th scope="col"><span>CTR</span></th>
+        <th scope="col"><span>Rank</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>silly tshirts</td>
+        <td>6,000</td>
+        <td>110</td>
+        <td>1.8%</td>
+        <td>22.2</td>
+      </tr>
+      <tr>
+        <td>bla bla tshirts</td>
+        <td>5,000</td>
+        <td>310</td>
+        <td>6.8%</td>
+        <td>12.2</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+{% endblock %}

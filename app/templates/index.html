@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+	<h1>Hello</h1>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">#</th>
+				<th scope="col">Hemmalag</th>
+				<th scope="col">Bortalag</th>
+				<th scope="col">Resultat</th>
+				<th scope="col">Winner</th>
+				<th scope="col">Loser</th>
+
+			</tr>
+		</thead>
+		<tbody>
+		{% for game in games %}
+			<tr>
+				<td>{{ game.id }}</td>
+				<td>{{ game.team1.teamname }}</td>
+				<td>{{ game.team2.teamname }}</td>
+				<td>{{ game.score_team1 }} - {{ game.score_team2 }}</td>
+				<td>{{ game.winner.teamname }}</td>
+				<td>{{ game.loser.teamname }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}

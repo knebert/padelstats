@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+	<h1>Round {{ games.date }}</h1>
+	<h2>Player stats:</h2>
+    <table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">Rank</th>
+                <th	scope="col">Player</th>
+				<th scope="col">Played Games</th>
+                <th scope="col">Won Games</th>
+                <th scope="col">Lost Games</th>
+                <th scope="col">Win Ratio</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for p in player_round_stats: %}
+            {% if p['pld'] > 0: %}
+			<tr>
+				<td>{{ p['rank'] }}</td>
+                <td>{{ p['name'] }}</td>
+                <td>{{ p['pld'] }}</td>
+                <td>{{ p['w'] }}</td>
+                <td>{{ p['l'] }}</td>
+                <td>{{ "{0:.0%}".format(p['wr']) }}</td>
+			</tr>
+            {% endif %}
+            {% endfor %}
+		</tbody>
+	</table>
+    <br>
+    <h2>Team stats:</h2>
+    <table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">Rank</th>
+                <th	scope="col">Team</th>
+				<th scope="col">Played Games</th>
+                <th scope="col">Won Games</th>
+                <th scope="col">Lost Games</th>
+                <th scope="col">Win Ratio</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for t in team_round_stats: %}
+            {% if t['pld'] > 0: %}
+			<tr>
+				<td>{{ t['rank'] }}</td>
+                <td><a href="{{ url_for('team', teamid=t['id']) }}">{{ t['name'] }}</a></td>
+                <td>{{ t['pld'] }} </td>
+                <td>{{ t['w'] }}</td>
+                <td>{{ t['l'] }}</td>
+                <td>{{ "{0:.0%}".format(t['wr']) }}</td>
+			</tr>
+            {% endif %}
+            {% endfor %}
+		</tbody>
+	</table>
+    <br>
+    <h2>Games</h2>
+    <table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">#</th>
+                <th	scope="col">Team 1</th>
+                <th	scope="col">Team 2</th>
+				<th scope="col">Result</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for g in round_games: %}
+			<tr>
+                <td>{{ g.id }}</td>
+                {% if g.winner_team_id==g.team1_id %}
+                <td class="success">{{ g.team1.teamname }}</td>
+                <td class="danger">{{ g.team2.teamname }}</td>
+                {% else %}
+                <td class="danger">{{ g.team1.teamname }}</td>
+                <td class="success">{{ g.team2.teamname }}</td>
+                {% endif %}
+                <td>{{ g.score_team1 }} - {{ g.score_team2 }}</td>
+			</tr>
+            {% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

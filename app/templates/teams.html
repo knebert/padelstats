@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {{ charts_init }}
+{% endblock %}
+
+{% block app_content %}
+
+	<h1>Teams</h1>
+	<div class="col-md-12">{{ charts.teams }}</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">Rank</th>
+				<th scope="col">Team name</th>
+				<th scope="col">Played Games</th>
+				<th scope="col">Won Games</th>
+				<th scope="col">Lost Games</th>
+				<th scope="col">Win %</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for t in team_stats %}
+			<tr>
+				<td>{{ t['rank'] }}</td>
+				<td><a href="{{ url_for('team', teamid=t['id']) }}">{{ t['name'] }}</a></td>
+				<td>{{ t['pld'] }}</td>
+				<td>{{ t['w'] }}</td>
+				<td>{{ t['l'] }}</td>
+				<td>{{ "{0:.0%}".format(t['wr']) }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+	<h1>Players</h1>
+	<div class="row">
+		<form action="" method="post">
+			{% if active == 'all': %}
+				{{ form.all_games(class_="btn btn-primary") }}
+				{{ form.games_2019(class_="btn btn-default") }}
+				{{ form.games_2018(class_="btn btn-default") }}
+			{% elif active == '2019': %}
+				{{ form.all_games(class_="btn btn-default") }}
+				{{ form.games_2019(class_="btn btn-primary") }}
+				{{ form.games_2018(class_="btn btn-default") }}
+			{% else: %}
+				{{ form.all_games(class_="btn btn-default") }}
+				{{ form.games_2019(class_="btn btn-default") }}
+				{{ form.games_2018(class_="btn btn-primary") }}
+			{% endif %}
+		</form>
+
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">Rank</th>
+                <th	scope="col">Player</th>
+				<th scope="col">Played Games</th>
+                <th scope="col">Won Games</th>
+                <th scope="col">Lost Games</th>
+                <th scope="col">Win Ratio</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for p in player_stats: %}
+			<tr>
+				<td>{{ p['rank'] }}</td>
+                <td><a href="{{ url_for('player', firstname=p['name']) }}">{{ p['name'] }}</a></td>
+                <td>{{ p['pld'] }}</td>
+                <td>{{ p['w'] }}</td>
+                <td>{{ p['l'] }}</td>
+                <td>{{ "{0:.0%}".format(p['wr']) }}</td>
+			</tr>
+            {% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

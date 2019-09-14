@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1>{{ player.firstname }} {{ player.lastname }}</h1>
+<br>
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-success">
+                <h1 class="panel-text text-center">{{ player_table['rank'] }}<small> ({{ player_table['players'] }})</small></h1>
+                <h4 class="panel-title text-muted">RANK</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-success">
+                <h1 class="panel-text text-center">{{ "{0:.0%}".format(player_table['wr']) }}</h1>
+                <h4 class="panel-title">WIN RATIO</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-info">
+                <h1 class="panel-text text-center">{{ player_table['rounds'] }}</h1>
+                <h4 class="panel-title">ROUNDS</h4>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body bg-info">
+                <h1 class="panel-text text-center">{{ player_table['round_wins'] }}</h1>
+                <h4 class="panel-title">ROUND WINS</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-info">
+                <h1 class="panel-text text-center">{{ player_table['pld'] }}</h1>
+                <h4 class="panel-title">PLAYED GAMES</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-success">
+                <h1 class="panel-text text-center">{{ player_table['w'] }}</h1>
+                <h4 class="panel-title">WON GAMES</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-danger">
+                <h1 class="panel-text text-center">{{ player_table['l'] }}</h1>
+                <h4 class="panel-title">LOST GAMES</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Rounds</h3>
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th	scope="col">Date</th>
+                <th	scope="col"></th>
+                <th	scope="col">Rank</th>
+                <th scope="col">Played Games</th>
+                <th scope="col">Won Games</th>
+                <th scope="col">Lost Games</th>
+                <th scope="col">Win %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in player_round_stats: %}
+            <tr>
+                <td><a href="{{ url_for('round', round_date=p['date']) }}">{{ p['date'] }}</a></td>
+                <td>
+                    {% if p['rank'] < 2: %}
+                    <span class="glyphicon glyphicon-star text-warning" aria-hidden="true"></span>
+                    {% endif %}
+                </td>
+                <td>{{ p['rank'] }} ({{ p['players'] }})</td>
+                <td>{{ p['pld'] }}</td>
+                <td>{{ p['w'] }}</td>
+                <td>{{ p['l'] }}</td>
+                <td>{{ "{0:.0%}".format(p['wr']) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Team Stats</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th	scope="col">Rank</th>
+                    <th	scope="col">Team</th>
+                    <th scope="col">Played Games</th>
+                    <th scope="col">Won Games</th>
+                    <th scope="col">Lost Games</th>
+                    <th scope="col">Win %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in teams_table: %}
+                <tr>
+                    <td>{{ t[1]['RANK'] }}</td>
+                    <td><a href="{{ url_for('team', teamid=t[1]['ID']) }}">{{ t[0] }}</a></td>
+                    <td>{{ t[1]['PLD'] }}</td>
+                    <td>{{ t[1]['W'] }}</td>
+                    <td>{{ t[1]['L'] }}</td>
+                    <td>{{ "{0:.0%}".format(t[1]['WR']) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<h2>Games played:</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th	scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Home</th>
+            <th scope="col">Away</th>
+            <th scope="col">Result</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for g in player_games: %}
+        <tr>
+            <td>{{ loop.index0 + 1 }}</td>
+            <td>{{ g.date }}</td>
+            <td>{{ g.team1.teamname }}</td>
+            <td>{{ g.team2.teamname }}</td>
+            <td>{{ g.score_team1 }} - {{ g.score_team2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

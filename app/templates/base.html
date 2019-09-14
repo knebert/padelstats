@@ -1,0 +1,59 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+	{% if title %}{{ title}} - Padel Stats
+	{% else %}Welcome to Padel Stats
+	{% endif %}
+{% endblock %}
+
+{% block navbar %}
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{ url_for('index') }}">Padel Stats</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+					<li><a href="{{ url_for('rounds') }}">Rounds</a></li>
+					<li><a href="{{ url_for('players') }}">Players</a></li>
+					<li><a href="{{ url_for('teams') }}">Teams</a></li>
+					<li><a href="{{ url_for('games') }}">Games</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                	<li class="dropdown">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+            				<li><a href="{{ url_for('addplayer') }}">Add New Player</a></li>
+            				<li><a href="{{ url_for('addgame') }}">Add New Game</a></li>
+							<li><a href="{{ url_for('uploadplayers') }}">Upload Players</a></li>
+							<li><a href="{{ url_for('uploadgames') }}">Upload Games</a></li>
+          				</ul>
+        			</li>
+                	<li><a href="{{ url_for('login') }}">Login</a></li>
+                </ul>
+            </div>
+		</div>
+	</nav>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-info" role="alert">{{ message }}</div>
+			{% endfor %}
+			{% endif %}
+		{% endwith %}
+
+		{# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}

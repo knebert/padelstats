@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+	<h1>Rounds</h1>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">Date</th>
+				<th scope="col">Total Games</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for key, value in table.items(): %}
+			<tr>
+                <td><a href="{{ url_for('round', round_date=key) }}">{{ key }}</a></td>
+				<td>{{ value }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

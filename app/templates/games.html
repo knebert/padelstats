@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {{ charts_init }}
+{% endblock %}
+
+{% block app_content %}
+
+	<h1>Games</h1>
+	<div class="col-md-8">{{ charts.games }}</div>
+	<div class="col-md-4">
+    	<p>Number of played games: {{ games_played }}</p><br>
+    	<p>Number of rounds played: {{ game_dates }}</p>
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th	scope="col">#</th>
+                <th scope="col">Date</th>
+				<th scope="col">Team 1</th>
+				<th scope="col">Team 2</th>
+				<th scope="col">Result</th>
+                <th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for game in games %}
+			<tr>
+				<td>{{ game.id }}</td>
+                <td>{{ game.date }}</td>
+
+                {% if game.winner_team_id==game.team1_id %}
+                <td class="success">{{ game.team1.teamname }}</td>
+                <td class="danger">{{ game.team2.teamname }}</td>
+                {% else %}
+                <td class="danger">{{ game.team1.teamname }}</td>
+                <td class="success">{{ game.team2.teamname }}</td>
+                {% endif %}
+				<td>{{ game.score_team1 }} - {{ game.score_team2 }}</td>
+                <td><a href="{{ url_for('game', gameid=game.id) }}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

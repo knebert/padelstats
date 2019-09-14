@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+	<h1>Add player</h1>
+	<div class="row">
+		<div class="col-md-4">
+			{{ wtf.quick_form(form) }}
+		</div>
+	</div>
+	<div>
+		<h2>Available players</h2>
+		<table class="table table-striped">
+			<thead>
+				<th>ID</th>
+				<th>First name</th>
+				<th>Last name</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for player in players %}
+				<tr>
+					<td>{{ player.id }}</td>
+					<td><a href="{{ url_for('player', firstname=player.firstname) }}">{{ player.firstname }}</a></td>
+					<td>{{ player.lastname }}</td>
+					<td><a href="#"><i class="glyphicon glyphicon-trash"></i></a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

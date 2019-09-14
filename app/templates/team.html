@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <script src = "https://www.gstatic.com/charts/loader.js"></script>
+{% endblock %}
+
+{% block app_content %}
+
+<h1>Team: {{ team.teamname }}</h1>
+<br>
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-success">
+                <h1 class="panel-text text-center">{{ team_stats['rank'] }}<small> ({{ team_stats['teams'] }})</small></h1>
+                <h4 class="panel-title text-muted">RANK</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-success">
+                <h1 class="panel-text text-center">{{ "{0:.0%}".format(team_stats['wr']) }}</h1>
+                <h4 class="panel-title">WIN RATIO</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-info">
+                <h1 class="panel-text text-center">{{ team_stats['pld'] }}</h1>
+                <h4 class="panel-title">PLAYED GAMES</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-success">
+                <h1 class="panel-text text-center">{{ team_stats['w'] }}</h1>
+                <h4 class="panel-title">WON GAMES</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-body bg-danger">
+                <h1 class="panel-text text-center">{{ team_stats['l'] }}</h1>
+                <h4 class="panel-title">LOST GAMES</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h2>Rounds played:</h2>
+<div class="col-md.12">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th	scope="col">Date</th>
+                <th	scope="col">Rank</th>
+                <th scope="col">Played Games</th>
+                <th scope="col">Won Games</th>
+                <th scope="col">Lost Games</th>
+                <th scope="col">Win %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in team_round_stats: %}
+            <tr>
+                <td>{{ t['date'] }}</td>
+                <td>{{ t['rank'] }} ({{ t['teams']}})</td>
+                <td>{{ t['pld'] }}</td>
+                <td>{{ t['w'] }}</td>
+                <td>{{ t['l'] }}</td>
+                <td>{{ "{0:.0%}".format(t['wr']) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+<h2>Games played:</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th	scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Home</th>
+            <th scope="col">Away</th>
+            <th scope="col">Result</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for g in team_games: %}
+        {% if g.winner_team_id==team.id %}
+        <tr class="success">
+        {% else %}
+        <tr class="danger">
+        {% endif %}
+            <td>{{ loop.index0 + 1 }}</td>
+            <td>{{ g.date }}</td>
+            <td>{{ g.team1.teamname }}</td>
+            <td>{{ g.team2.teamname }}</td>
+            <td>{{ g.score_team1 }} - {{ g.score_team2 }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
