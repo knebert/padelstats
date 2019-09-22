@@ -112,12 +112,12 @@
             <tbody>
                 {% for t in teams_table: %}
                 <tr>
-                    <td>{{ t[1]['RANK'] }}</td>
-                    <td><a href="{{ url_for('team', teamid=t[1]['ID']) }}">{{ t[0] }}</a></td>
-                    <td>{{ t[1]['PLD'] }}</td>
-                    <td>{{ t[1]['W'] }}</td>
-                    <td>{{ t[1]['L'] }}</td>
-                    <td>{{ "{0:.0%}".format(t[1]['WR']) }}</td>
+                    <td>{{ t['rank'] }}</td>
+                    <td><a href="{{ url_for('team', teamid=t['id']) }}">{{ t['name'] }}</a></td>
+                    <td>{{ t['pld'] }}</td>
+                    <td>{{ t['w'] }}</td>
+                    <td>{{ t['l'] }}</td>
+                    <td>{{ "{0:.0%}".format(t['wr']) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -179,13 +179,12 @@ def player(firstname):
     # sort round stats by date
     player_round_stats = sorted(player_round_stats, key=lambda i: i['date'], reverse=True)
 
-    # refactor
-    # get the full table then sort out teams related to player
-    all_teams_table = Game.get_teams_result_table(all_games)
+    # getting teams table
+    all_teams_table = get_team_stats(all_games)
     teams_table = []
     for row in all_teams_table:
         for t in teams:
-            if row[0] == t.teamname:
+            if row['name'] == t.teamname:
                 teams_table.append(row)
 
     return render_template('player.html', player=player, player_table=player_table,
@@ -317,16 +316,16 @@ def get_team_stats(games):
     # Adding totals and win ratio to dictionary
     for t in team_stats:
         t['pld'] = t['w'] + t['l']
-        t['wr'] = t['w'] / t['pld']
+        t['wr'] = float(t['w']) / float(t['pld'])
 
     # Sorting list of dictionary
     team_stats = sorted(team_stats, key=lambda i: i['wr'], reverse=True)
 
     # Adding rank
-    i = 1
+    rank = 1
     for t in team_stats:
-        t['rank'] = i
-        i += 1
+        t['rank'] = rank
+        rank += 1
 
     return team_stats
 
