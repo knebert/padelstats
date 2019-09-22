@@ -278,7 +278,7 @@ def get_players_stats(games):
     for p in players_stats:
         p['pld'] = p['w'] + p['l']
         if p['pld'] > 0:
-            p['wr'] = p['w'] / p['pld']
+            p['wr'] = float(p['w']) / float(p['pld'])
 
     # Sorting list of dictionary
     players_stats = sorted(players_stats, key=lambda i: i['wr'], reverse=True)
